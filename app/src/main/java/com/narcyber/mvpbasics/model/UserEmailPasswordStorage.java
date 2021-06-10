@@ -3,8 +3,8 @@ package com.narcyber.mvpbasics.model;
 import java.util.Objects;
 
 public class UserEmailPasswordStorage {
-    private  String email;
-    private  String password;
+    private String email;
+    private String password;
 
     public UserEmailPasswordStorage(String email, String password) {
         this.email = email;

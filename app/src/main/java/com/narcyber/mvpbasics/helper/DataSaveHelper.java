@@ -8,21 +8,17 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.narcyber.mvpbasics.model.User;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class DataSaveHelper {
-    private  static  DataSaveHelper INSTANCE=new DataSaveHelper();
-    private  final  static  String UID="com.narcyber.mvpbasics.MyDB";
+    private static final DataSaveHelper INSTANCE = new DataSaveHelper();
+    private final static String UID = "com.narcyber.mvpbasics.MyDB";
    private Context context;
    private  SharedPreferences sp;
    private  SharedPreferences.Editor editor;
-
 
     public static  DataSaveHelper getINSTANCE(Context context){
         INSTANCE.context=context;
@@ -31,19 +27,13 @@ public class DataSaveHelper {
     }
 
     private  void createDatabase() {
-        INSTANCE.sp=INSTANCE.context.getSharedPreferences(INSTANCE.UID,Context.MODE_PRIVATE);
-        INSTANCE.editor=INSTANCE.sp.edit();
-
-
+        INSTANCE.sp = INSTANCE.context.getSharedPreferences(UID, Context.MODE_PRIVATE);
+        INSTANCE.editor = INSTANCE.sp.edit();
     }
-
 
     private  DataSaveHelper(){
         //
-
     }
-
-
 
     public  void writeObject(String key,Object object,Class cls){
         Gson gson=new Gson();
@@ -52,18 +42,16 @@ public class DataSaveHelper {
             INSTANCE.editor.putString(key,o);
             INSTANCE.editor.commit();
         }catch (ClassCastException e){
-
-
             return;
         }
 
     }
+
     @Nullable
     public  Object readObject(String key,Class cls){
         Gson gson=new Gson();
         String g=INSTANCE.sp.getString(key,"");
         if(!g.isEmpty()) {
-
             return gson.fromJson(g,cls);
         }
         return  null;
@@ -85,9 +73,6 @@ public class DataSaveHelper {
         editor.remove(key).commit();
     }
 
-
-
-
     public  void printAllObjects(){
         Map<String, ?> allEntries = sp.getAll();
 
@@ -98,6 +83,5 @@ public class DataSaveHelper {
             });
         }
     }
-
 
 }
