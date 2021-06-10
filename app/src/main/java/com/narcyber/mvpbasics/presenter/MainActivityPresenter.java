@@ -12,12 +12,14 @@ public class MainActivityPresenter {
 
     private static final String LOCAL = "Local";
     private final MainActivityView view;
-    private final DataSaveHelper dataSaveHelper;
+    private final DataSaveHelper<User> dataSaveHelper;
+    private final DataSaveHelper<UserEmailPasswordStorage> userEmailPasswordDataHelper;
     private User user;
 
     public MainActivityPresenter(MainActivityView view, Context context) {
         this.view = view;
-        dataSaveHelper = DataSaveHelper.getINSTANCE(context);
+        dataSaveHelper = new DataSaveHelper<>(context);
+        userEmailPasswordDataHelper = new DataSaveHelper<>(context);
         newUserRequest();
     }
 
@@ -38,9 +40,8 @@ public class MainActivityPresenter {
             view.ifExistGetKey(null);
             return;
         }
-        List users = dataSaveHelper.getAllCurrentObjects(User.class);
-        for (Object o : users) {
-            User user = (User) o;
+        List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
+        for (User user : users) {
             if (user.getEmail().trim().equalsIgnoreCase(this.user.getEmail().trim())
                     && user.getPassword().trim().equalsIgnoreCase(this.user.getPassword())) {
                 view.ifExistGetKey(user.getId());
@@ -49,26 +50,23 @@ public class MainActivityPresenter {
         }
         view.ifExistGetKey(null);
     }
-
     //save values while checkbox is checked ;
     public void rememberPasswordAndEmail(final String email, final String password) {
         UserEmailPasswordStorage userEmailPasswordStorage = new UserEmailPasswordStorage(email, password);
-        dataSaveHelper.writeObject(LOCAL, userEmailPasswordStorage, UserEmailPasswordStorage.class);
+        userEmailPasswordDataHelper.writeObject(LOCAL, userEmailPasswordStorage, UserEmailPasswordStorage.class);
     }
 
 
     public void sendPasswordAndEmailLastRegistered() {
-        Object obj = dataSaveHelper.readObject(LOCAL, UserEmailPasswordStorage.class);
+        UserEmailPasswordStorage obj = userEmailPasswordDataHelper.readObject(LOCAL, UserEmailPasswordStorage.class);
         if (obj != null) {
-            UserEmailPasswordStorage userEmailPasswordStorage = (UserEmailPasswordStorage) obj;
-            view.savedPasswordAndEmail(userEmailPasswordStorage.getEmail(), userEmailPasswordStorage.getPassword());
+            view.savedPasswordAndEmail(obj.getEmail(), obj.getPassword());
         }
     }
 
     public void removeLocal() {
-        dataSaveHelper.removeObject(LOCAL);
+        userEmailPasswordDataHelper.removeObject(LOCAL);
     }
-
     public interface MainActivityView {
 
         void ifExistGetKey(final String key);

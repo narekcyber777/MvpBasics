@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.narcyber.mvpbasics">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MvpBasics">
-
-        <activity android:name=".view.UserActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            >
-
-        </activity>
-
-        <activity android:name=".view.RegisterActivity"
-
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            >
-
-        </activity>
-
-        <activity android:name=".view.MainActivity"
+        android:theme="@style/Theme.MvpBasics"
+        tools:ignore="AllowBackup">
+        <activity
+            android:name=".view.MainActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            >
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.UserActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".view.RegisterActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
     </application>
 
 </manifest>

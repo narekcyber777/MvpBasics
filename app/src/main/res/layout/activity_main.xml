@@ -13,51 +13,46 @@
 
         <TextView
             android:id="@+id/textView"
-            style="@style/MyTitle"
+            style="@style/TitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_big"
             android:text="@string/sign_in" />
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
             style="@style/InputLayoutStyle"
-            app:hintEnabled="true"
             android:hint="@string/email"
-            android:layout_margin="@dimen/default_big">
+            android:background="@drawable/bg_input">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
                 style="@style/InputStyle"
+
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passLayout"
             style="@style/InputLayoutStyle"
-            android:layout_margin="@dimen/default_big"
             app:passwordToggleEnabled="true">
-
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 style="@style/InputStyle"
                 android:hint="@string/password"
                 android:inputType="textWebPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:orientation="horizontal">
-
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkBox"
                 android:text="@string/remember_me"
                 android:buttonTint="@color/blue"
-
                 style="@style/CheckBoxBlue"
-
               />
 
             <TextView
@@ -66,15 +61,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_gravity="center_vertical"
-
                 android:text="@string/forget_password"
-
                 android:textColor="#2196F3" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sign_in"
-            style="@style/MyButtonStyle"
+            style="@style/ButtonStyle"
             android:text="@string/sign_in"
         />
 

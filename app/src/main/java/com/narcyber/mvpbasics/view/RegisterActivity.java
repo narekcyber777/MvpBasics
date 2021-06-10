@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         root = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(root.getRoot());
         customizeWidgets();
