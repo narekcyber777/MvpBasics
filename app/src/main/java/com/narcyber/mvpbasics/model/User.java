@@ -5,21 +5,18 @@ import java.util.UUID;
 
 public class User {
 
-    private  String id;
-    private  String email;
-    private  String fullName;
-    private  String userName;
-    private  String password;
+    private String id;
+    private String email;
+    private String fullName;
+    private String userName;
+    private String password;
 
     public User(String email, String fullName, String userName, String password) {
         this.email = email;
         this.fullName = fullName;
         this.userName = userName;
         this.password = password;
-
         generateRandomId();
-
-
     }
 
     public User() {
@@ -27,7 +24,7 @@ public class User {
     }
 
     private void generateRandomId() {
-        this.id= UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
     }
 
     @Override

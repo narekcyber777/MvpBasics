@@ -10,20 +10,13 @@ public class Validator {
     final static String PASSWORD_DEFAULT_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
     final static String FULL_NAME_PATTERN = "^[\\p{L} .'-]+$"; // all Unicode characters at least
     final static String USERNAME_PATTERN = "^[A-Za-z]\\w{5,29}$";
-
     //patterns
     final static Pattern namePattern = Pattern.compile(FULL_NAME_PATTERN);
     final static Pattern passwordPattern = Pattern.compile(PASSWORD_DEFAULT_PATTERN);
     final static Pattern userNamePattern = Pattern.compile(USERNAME_PATTERN);
 
-
     public static boolean isEmailValid(String value) {
-        if (value.trim().length() >= 6 && Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
-
-            return true;
-        }
-        return false;
-
+        return value.trim().length() >= 6 && Patterns.EMAIL_ADDRESS.matcher(value).matches();
     }
 
     public static boolean isPasswordValid(String password) {
@@ -38,7 +31,6 @@ public class Validator {
 
     public static boolean isUsernameValid(String userName) {
         final Matcher matcher = userNamePattern.matcher(userName);
-
         return matcher.matches();
     }
 
