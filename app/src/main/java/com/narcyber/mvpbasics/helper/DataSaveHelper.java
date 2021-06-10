@@ -2,7 +2,6 @@ package com.narcyber.mvpbasics.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.annotation.Nullable;
 
@@ -14,9 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class DataSaveHelper<T> {
-
-    private final static String UID = "com.narcyber.mvpbasics.MyDB";
-    private Context context;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -25,7 +21,7 @@ public class DataSaveHelper<T> {
     }
 
     private void createDatabase(Context context) {
-        sp = context.getSharedPreferences(UID, Context.MODE_PRIVATE);
+        sp = context.getSharedPreferences(ConstantHelper.UID, Context.MODE_PRIVATE);
         editor = sp.edit();
     }
 
@@ -57,11 +53,9 @@ public class DataSaveHelper<T> {
     public List<T> getAllCurrentObjects(Class<T> cls) {
         Map<String, ?> allEntries = sp.getAll();
         List<T> all = new ArrayList<T>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            allEntries.forEach((k, v) -> {
-                T obj = readObject(k, cls);
-                if (obj != null) all.add(obj);
-            });
+        for (Map.Entry<String, ?> oMap : allEntries.entrySet()) {
+            T obj = readObject(oMap.getKey(), cls);
+            if (obj != null) all.add(obj);
         }
         return all;
     }

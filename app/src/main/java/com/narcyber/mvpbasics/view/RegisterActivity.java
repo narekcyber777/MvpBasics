@@ -3,36 +3,28 @@ package com.narcyber.mvpbasics.view;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.narcyber.mvpbasics.R;
 import com.narcyber.mvpbasics.databinding.ActivitySignUpBinding;
+import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.presenter.RegisterActivityPresenter;
 import com.narcyber.mvpbasics.utils.MyUtils;
 import com.narcyber.mvpbasics.utils.TextCustomizer;
 import com.narcyber.mvpbasics.utils.Validator;
 
-public class RegisterActivity extends AppCompatActivity implements TextCustomizer.TextCustomizerListener
-        , RegisterActivityPresenter.RegisterView {
-    //const
-    public static final String TAG = "MainActivity";
-    final String TextSignUpEventName = "SIGN_UP_EVENT_NAME";
-    final String TextTermsEventName = "TERMS_EVENT_CONDITIONS";
-    //presenter
+public class RegisterActivity extends AppCompatActivity implements RegisterActivityPresenter.RegisterView {
+
+
     private RegisterActivityPresenter registerActivityPresenter;
-    //other
     private TextWatcher emailTextWatcher, passwordTextWatcher, userNameWatcher, nameWatcher;
-    //vars
-    private boolean isUsernameValid, isPasswordValid, isEmailValid, isNameValid;
-    //root
     private ActivitySignUpBinding root;
+    private boolean isTermsErrorShown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         root = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(root.getRoot());
         customizeWidgets();
@@ -40,17 +32,18 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
     }
 
     private void inIt() {
-        registerActivityPresenter = new RegisterActivityPresenter(this, getApplicationContext());
-        root.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            singUpStatusCheck();
-        });
-        root.signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerActivityPresenter.pushUserIntoDb();
-                MyUtils.showInToast(getApplicationContext(), "Successfuly Sign Up");
+        registerActivityPresenter = new RegisterActivityPresenter(this, this);
+        root.signUp.setEnabled(true);
+        root.signUp.setOnClickListener(v -> {
+            if (validateAndSend()) {
+                MyUtils.showInToast(RegisterActivity.this, getString(R.string.success_sign_up));
                 MyUtils.moveToAndClear(RegisterActivity.this, MainActivity.class);
-                finish();
+            } else {
+                if (isTermsErrorShown) {
+                    MyUtils.showInToast(RegisterActivity.this, getString(R.string.accept_terms_please));
+                } else {
+                    MyUtils.showInToast(RegisterActivity.this, getString(R.string.error_sign_up));
+                }
             }
         });
 
@@ -65,15 +58,14 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Validator.isEmailValid(s.toString().trim())) {
-                    registerActivityPresenter.setUserEmail(s.toString());
+                if (s.toString().isEmpty()) {
+                    root.emailLayout.setError(null);
+                } else if (Validator.isEmailValid(s.toString().trim())) {
                     registerActivityPresenter.isEmailTaken(s.toString().trim());// if very
                 } else {
                     root.emailLayout.setError(getString(R.string.invalid_email));
                     root.emailLayout.requestFocus();
-                    isEmailValid = false;
                 }
-                singUpStatusCheck();
             }
         };
         passwordTextWatcher = new TextWatcher() {
@@ -87,16 +79,16 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Validator.isPasswordValid(s.toString().trim())) {
+                if (s.toString().isEmpty()) {
                     root.passLayout.setError(null);
-                    isPasswordValid = true;
-                    registerActivityPresenter.setUserPassword(s.toString().trim());
+                } else if (Validator.isPasswordValid(s.toString().trim())) {
+                    root.passLayout.setError(null);
+
                 } else {
                     root.passLayout.setError(getString(R.string.invalid_password));
                     root.passLayout.requestFocus();
-                    isPasswordValid = false;
+
                 }
-                singUpStatusCheck();
             }
         };
 
@@ -111,15 +103,16 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Validator.isUsernameValid(s.toString().trim())) {
+
+                if (s.toString().isEmpty()) {
+                    root.usernameLayout.setError(null);
+                } else if (Validator.isUsernameValid(s.toString().trim())) {
                     registerActivityPresenter.isUsernameTaken(s.toString());
-                    registerActivityPresenter.setUsersUserName(s.toString().trim());
+
                 } else {
                     root.usernameLayout.setError(getString(R.string.invalid_username));
                     root.usernameLayout.requestFocus();
-                    isUsernameValid = false;
                 }
-                singUpStatusCheck();
             }
         };
         nameWatcher = new TextWatcher() {
@@ -133,18 +126,45 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (Validator.isFullNameValid(s.toString().trim())) {
+                if (s.toString().isEmpty()) {
                     root.fullNameLayout.setError(null);
-                    isNameValid = true;
-                    registerActivityPresenter.setUserFullName(s.toString().trim());
+                } else if (Validator.isFullNameValid(s.toString().trim())) {
+                    root.fullNameLayout.setError(null);
                 } else {
                     root.fullNameLayout.setError(getString(R.string.invalid_full_name));
                     root.fullNameLayout.requestFocus();
-                    isNameValid = false;
                 }
-                singUpStatusCheck();
             }
         };
+    }
+
+    private boolean validateAndSend() {
+        String email, password, userName, fullName;
+        email = password = userName = fullName = null;
+        if (root.email.getText() == null || root.email.getText().toString().isEmpty()) {
+            root.emailLayout.setError(getString(R.string.error_empty));
+        } else {
+            email = root.email.getText().toString();
+        }
+        if (root.fullName.getText() == null || root.fullName.getText().toString().isEmpty()) {
+            root.fullNameLayout.setError(getString(R.string.error_empty));
+        } else {
+            fullName = root.fullName.getText().toString();
+        }
+        if (root.password.getText() == null || root.password.getText().toString().isEmpty()) {
+            root.passLayout.setError(getString(R.string.error_empty));
+        } else {
+            password = root.password.getText().toString();
+        }
+        if (root.username.getText() == null || root.username.getText().toString().isEmpty()) {
+            root.usernameLayout.setError(getString(R.string.error_empty));
+        } else {
+            userName = root.username.getText().toString();
+        }
+        if (!singUpStatusCheck()) return false;
+        registerActivityPresenter.pushUserIntoDb(email, fullName, password, userName);
+        return true;
+
     }
 
     @Override
@@ -175,57 +195,52 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
 
     private void customizeWidgets() {
         root.signUp.setEnabled(false);
-        TextCustomizer textCustomizer = new TextCustomizer.Builder(root.requiredActivityTextView)
-                .setCallBack(this)
+        new TextCustomizer.Builder(root.requiredActivityTextView)
+                .setCallBack(eventName -> {
+                    switch (eventName) {
+                        case ConstantHelper.TextSignUpEventName: {
+                            MyUtils.moveToAndClear(this, MainActivity.class);
+                        }
+                    }
+                })
                 .setText(getString(R.string.suggest_register_text))
                 .addSpace(2)
                 .push()
                 .setText(getString(R.string.sign_in))
-                .makeClickable(TextSignUpEventName)
+                .makeClickable(ConstantHelper.TextSignUpEventName, getResources().getColor(R.color.blue))
                 .push()
                 .build();
-        TextCustomizer textCustomizer2 = new TextCustomizer.Builder(root.checkBox)
-                .setCallBack(this)
+        new TextCustomizer.Builder(root.checkBox)
+                .setCallBack(eventName -> {
+                })
                 .setText(getString(R.string.accept_terms))
                 .isBold(true)
                 .push()
                 .setText(getString(R.string.terms_conditions_string))
-                .makeClickable(TextTermsEventName)
+                .makeClickable(ConstantHelper.TextTermsEventName, getResources().getColor(R.color.blue))
                 .push()
                 .build();
     }
 
-
-    @Override
-    public void onClick(String eventName) {
-        switch (eventName) {
-            case TextSignUpEventName: {
-                MyUtils.moveToAndClear(this, MainActivity.class);
-            }
-        }
-    }
-
-    private void singUpStatusCheck() {
-        if (isEmailValid && isPasswordValid && isNameValid && isUsernameValid) {
+    private boolean singUpStatusCheck() {
+        if (isNull(root.emailLayout.getError()) && isNull(root.passLayout.getError())
+                && isNull(root.fullNameLayout.getError()) && isNull(root.usernameLayout.getError())) {
             if (!root.checkBox.isChecked()) {
-                root.signUp.setEnabled(false);
-                MyUtils.showInToast(RegisterActivity.this, "Please Accept our  Terms and Conditions");
-                return;
+                isTermsErrorShown = true;
+                return false;
             }
-            root.signUp.setEnabled(true);
-            return;
+            return true;
         }
-        root.signUp.setEnabled(false);
+        isTermsErrorShown = false;
+        return false;
     }
 
     @Override
     public boolean isEmailUsed(boolean isUsed) {
         if (!isUsed) {
             root.emailLayout.setError(null);
-            isEmailValid = true;
         } else {
             root.emailLayout.setError(getString(R.string.email_used));
-            isEmailValid = false;
         }
         return false;
     }
@@ -234,12 +249,14 @@ public class RegisterActivity extends AppCompatActivity implements TextCustomize
     public boolean isUsernameUsed(boolean isUsed) {
         if (!isUsed) {
             root.usernameLayout.setError(null);
-            isUsernameValid = true;
         } else {
             root.usernameLayout.setError(getString(R.string.email_used));
-            isUsernameValid = false;
         }
         return false;
+    }
+
+    public boolean isNull(Object object) {
+        return object == null;
     }
 
     @Override

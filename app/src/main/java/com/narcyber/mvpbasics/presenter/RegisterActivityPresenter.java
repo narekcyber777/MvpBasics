@@ -11,14 +11,13 @@ import java.util.List;
 
 public class RegisterActivityPresenter {
 
-    private final String TAG = "REG_PRESENTER";
     private final RegisterView view;
     private final DataSaveHelper<User> dataSaveHelper;
-    private User user;
+
 
     public RegisterActivityPresenter(RegisterView view, Context context) {
         this.view = view;
-        this.user = new User();
+
         dataSaveHelper = new DataSaveHelper<User>(context);
     }
 
@@ -51,34 +50,10 @@ public class RegisterActivityPresenter {
         return false;
     }
 
-    public void setUserFullName(String fullName) {
-        user.setFullName(fullName);
-    }
-
-    public void setUsersUserName(String userName) {
-        user.setUserName(userName);
-    }
-
-    public void setUserPassword(String password) {
-        user.setPassword(password);
-    }
-
-    public void setUserEmail(String userEmail) {
-        user.setEmail(userEmail);
-    }
-
-    public void createNewUser() {
-        this.user = new User();
-    }
-
-    public void pushUserIntoDb() {
+    public void pushUserIntoDb(final String userEmail, final String userFullName,
+                               final String userPassword, final String userName) {
+        final User user = new User(userEmail, userFullName, userName, userPassword);
         dataSaveHelper.writeObject(user.getId(), user, User.class);
-        createNewUser();
-    }
-
-    public RegisterActivityPresenter setUser(User user) {
-        this.user = user;
-        return this;
     }
 
     public interface RegisterView {

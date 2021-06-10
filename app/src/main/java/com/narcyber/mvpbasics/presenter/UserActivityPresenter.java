@@ -10,22 +10,13 @@ import java.util.List;
 public class UserActivityPresenter {
     private final UserActivityView view;
     private final DataSaveHelper<User> dataSaveHelper;
-    private User user;
 
     public UserActivityPresenter(UserActivityView view, Context context) {
         this.view = view;
         this.dataSaveHelper = new DataSaveHelper<>(context);
     }
 
-    private void createNewUser(User user) {
-        this.user = user;
-    }
-
-    public void logOut() {
-        user = null;
-    }
-
-    public void UserGetFromDb(String key) {
+    public void userGetAndUpdateView(String key) {
         List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
         for (User us : users) {
             if (us.getId().equalsIgnoreCase(key)) {
@@ -36,7 +27,6 @@ public class UserActivityPresenter {
             }
         }
     }
-
     public interface UserActivityView {
 
         void setUserName(String userName);
