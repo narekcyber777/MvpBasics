@@ -5,8 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.narcyber.mvpbasics.databinding.ActivityUserBinding;
+import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.presenter.UserActivityPresenter;
-import com.narcyber.mvpbasics.utils.MyUtils;
 
 public class UserActivity extends AppCompatActivity implements UserActivityPresenter.UserActivityView {
 
@@ -23,9 +23,9 @@ public class UserActivity extends AppCompatActivity implements UserActivityPrese
     }
 
     private void inIt() {
-        final String id = String.valueOf(getIntent().getStringExtra(MyUtils.KEY_ID));
-        userActivityPresenter = new UserActivityPresenter(this, getApplicationContext());
-        userActivityPresenter.UserGetFromDb(id);
+        final String id = String.valueOf(getIntent().getStringExtra(ConstantHelper.KEY_ID));
+        userActivityPresenter = new UserActivityPresenter(this, this);
+        userActivityPresenter.userGetAndUpdateView(id);
     }
 
     @Override
@@ -41,13 +41,6 @@ public class UserActivity extends AppCompatActivity implements UserActivityPrese
     @Override
     public void setEmail(String email) {
         root.email.setText(email);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MyUtils.moveToAndClear(this, MainActivity.class);
-        finish();
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.narcyber.mvpbasics.presenter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -11,38 +9,28 @@ import com.narcyber.mvpbasics.model.User;
 
 import java.util.List;
 
-public class RegisterActivityPresenter implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class RegisterActivityPresenter {
 
-    private final String TAG = "REG_PRESENTER";
     private final RegisterView view;
-    private final DataSaveHelper dataSaveHelper;
-    private User user;
+    private final DataSaveHelper<User> dataSaveHelper;
 
 
-    public RegisterActivityPresenter(RegisterView view, Context applicationContext) {
+    public RegisterActivityPresenter(RegisterView view, Context context) {
         this.view = view;
-        this.user = new User();
-        dataSaveHelper = DataSaveHelper.getINSTANCE(applicationContext);
+
+        dataSaveHelper = new DataSaveHelper<User>(context);
     }
 
-
     public boolean isUsernameTaken(@NonNull String username) {
-        List<Object> users = dataSaveHelper.getAllCurrentObjects(User.class);
-
-
-        for (Object o : users) {
-            User user = (User) o;
-
+        List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
+        for (User user : users) {
             if (user.getUserName().trim().equalsIgnoreCase(username.trim())) {
                 view.isUsernameUsed(true);
                 return true;
             }
-
         }
         view.isUsernameUsed(false);
-
         return false;
-
     }
 
     public void removeUser(String key) {
@@ -50,60 +38,22 @@ public class RegisterActivityPresenter implements SharedPreferences.OnSharedPref
     }
 
     public boolean isEmailTaken(@NonNull String email) {
-        List<Object> users = dataSaveHelper.getAllCurrentObjects(User.class);
-
-        for (Object o : users) {
-            User user = (User) o;
+        List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
+        for (User user : users) {
             if (user == null) continue;
-
-            System.out.println(user.toString() + " ssss s ");
             if (user.getEmail().trim().equalsIgnoreCase(email.trim())) {
                 view.isEmailUsed(true);
                 return true;
             }
-
         }
-
         view.isEmailUsed(false);
-
         return false;
-
     }
 
-    public void setUserFullName(String fullName) {
-        user.setFullName(fullName);
-    }
-
-    public void setUsersUserName(String userName) {
-        user.setUserName(userName);
-    }
-
-    public void setUserPassword(String password) {
-        user.setPassword(password);
-    }
-
-    public void setUserEmail(String userEmail) {
-        user.setEmail(userEmail);
-    }
-
-    public void createNewUser() {
-        this.user = new User();
-    }
-
-    public void pushUserIntoDb() {
+    public void pushUserIntoDb(final String userEmail, final String userFullName,
+                               final String userPassword, final String userName) {
+        final User user = new User(userEmail, userFullName, userName, userPassword);
         dataSaveHelper.writeObject(user.getId(), user, User.class);
-        createNewUser();
-    }
-
-    public RegisterActivityPresenter setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d(TAG, key);
     }
 
     public interface RegisterView {
@@ -111,7 +61,6 @@ public class RegisterActivityPresenter implements SharedPreferences.OnSharedPref
         boolean isEmailUsed(boolean isUsed);
 
         boolean isUsernameUsed(boolean isUsed);
-
-
     }
+
 }

@@ -17,10 +17,17 @@
     <string name="invalid_full_name">Invalid Full Name  </string>
     <string name="email_used">Sorry Email is used by other user  </string>
     <string name="username_used">Sorry Username is used by other user </string>
+    <string name="accept_terms_please">Please Accept our  Terms and Conditions</string>
     <string name="or_use">Or use</string>
     <string name="forget_password">Forgot Password?</string>
     <string name="name">Name</string>
     <string name="login">Login</string>
+    <string name="success_sign_up">Successfully signed up !</string>
+    <string name="error_sign_up">Sign up was failed !</string>
+    <string name="error_sign_in">Sign in was failed !</string>
+    <string name="error_empty">Sorry this field can\'t  be empty</string>
+    <string name="user_not_found">User hasn\'t been found seems username or password is wrong</string>
+    <string name="facebook">Facebook</string>
 
 
 </resources>

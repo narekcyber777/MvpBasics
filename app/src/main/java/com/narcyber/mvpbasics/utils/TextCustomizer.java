@@ -71,7 +71,7 @@ public class TextCustomizer {
             return this;
         }
 
-        public Builder makeClickable(String eventName) {
+        public Builder makeClickable(String eventName, int color) {
             if (word != null) {
                 ClickableSpan clickableSpan = new ClickableSpan() {
                     @Override
@@ -84,7 +84,7 @@ public class TextCustomizer {
                     @Override
                     public void updateDrawState(@NonNull TextPaint ds) {
                         super.updateDrawState(ds);
-                        ds.setColor(Color.parseColor("#2196F3"));
+                        ds.setColor(color);
                         ds.setUnderlineText(false);
                         ds.bgColor = Color.WHITE;
                         textView.invalidate();

@@ -2,86 +2,71 @@ package com.narcyber.mvpbasics.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DataSaveHelper {
-    private static final DataSaveHelper INSTANCE = new DataSaveHelper();
-    private final static String UID = "com.narcyber.mvpbasics.MyDB";
-   private Context context;
-   private  SharedPreferences sp;
-   private  SharedPreferences.Editor editor;
+public class DataSaveHelper<T> {
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
 
-    public static  DataSaveHelper getINSTANCE(Context context){
-        INSTANCE.context=context;
-        INSTANCE.createDatabase();
-        return  INSTANCE;
+    public DataSaveHelper(Context context) {
+        createDatabase(context);
     }
 
-    private  void createDatabase() {
-        INSTANCE.sp = INSTANCE.context.getSharedPreferences(UID, Context.MODE_PRIVATE);
-        INSTANCE.editor = INSTANCE.sp.edit();
+    private void createDatabase(Context context) {
+        sp = context.getSharedPreferences(ConstantHelper.UID, Context.MODE_PRIVATE);
+        editor = sp.edit();
     }
 
-    private  DataSaveHelper(){
-        //
-    }
 
-    public  void writeObject(String key,Object object,Class cls){
-        Gson gson=new Gson();
-        try{
-            String o=gson.toJson(cls.cast(object));
-            INSTANCE.editor.putString(key,o);
-            INSTANCE.editor.commit();
-        }catch (ClassCastException e){
+    public void writeObject(String key, T object, Class<T> cls) {
+        Gson gson = new Gson();
+        try {
+            String o = gson.toJson(cls.cast(object));
+            this.editor.putString(key, o);
+            this.editor.apply();
+        } catch (ClassCastException e) {
             return;
         }
-
     }
 
     @Nullable
-    public  Object readObject(String key,Class cls){
-        Gson gson=new Gson();
-        String g=INSTANCE.sp.getString(key,"");
-        if(!g.isEmpty()) {
-            return gson.fromJson(g,cls);
+    public T readObject(String key, Class<T> cls) {
+        Gson gson = new Gson();
+        String g = sp.getString(key, "");
+        try {
+            if (!g.isEmpty()) {
+                return gson.fromJson(g, cls);
+            }
+        } catch (JsonParseException ignored) {
         }
-        return  null;
+        return null;
     }
 
-    public List<Object> getAllCurrentObjects(Class cls){
+    public List<T> getAllCurrentObjects(Class<T> cls) {
         Map<String, ?> allEntries = sp.getAll();
-            List all=new ArrayList();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            allEntries.forEach((k,v)->{
-                   Object obj= readObject(k,cls);
-                    if(obj!=null) all.add(obj);
-            });
+        List<T> all = new ArrayList<T>();
+        for (Map.Entry<String, ?> oMap : allEntries.entrySet()) {
+            T obj = readObject(oMap.getKey(), cls);
+            if (obj != null) all.add(obj);
         }
-        return  all;
+        return all;
     }
 
-    public  void removeObject(String key){
+    public void removeObject(String key) {
         editor.remove(key).commit();
     }
 
-    public  void printAllObjects(){
-        Map<String, ?> allEntries = sp.getAll();
-
-        System.out.println(allEntries.toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            allEntries.forEach((k,v)->{
-                Log.d("NAR",k+" s "+v);
-            });
-        }
+    public void clear() {
+        editor.clear().apply();
     }
+
 
 }
