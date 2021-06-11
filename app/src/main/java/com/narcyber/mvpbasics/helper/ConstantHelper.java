@@ -8,5 +8,8 @@ public class ConstantHelper {
     public static final String LOCAL = "Local";
     public static final String LOCAL_CHECK = "LOCAL_CHECKBOX_STATUS";
     public static String KEY_ID = "id";
+    public static String KEY_EMAIL = "email";
+    public static String KEY_PASSWORD = "password";
+
 
 }

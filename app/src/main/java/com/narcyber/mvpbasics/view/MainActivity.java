@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void ifExistGetKey(String key) {
         if (key == null) {
-            removeAllSavedObjects();
+
             root.emailLayout.setError(getString(R.string.user_not_found));
             root.passLayout.setError(getString(R.string.user_not_found));
             MyUtils.showInToast(this, getString(R.string.error_sign_in));
@@ -151,9 +151,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void savedPasswordAndEmail(String email, String password) {
-        root.email.setText(email);
-        root.password.setText(password);
-        root.checkBox.setChecked(true);
+        mainActivityPresenter.findUserByEmailAndPassword(email, password);
     }
 
     private void rememberPasswordAndLoginIfNeed() {
