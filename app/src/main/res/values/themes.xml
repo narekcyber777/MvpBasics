@@ -14,27 +14,61 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="MyTitle" parent="Widget.AppCompat.Button.Borderless">
+
+    <style name="TextViewTitleStyle">
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/title_size_sp</item>
+        <item name="android:layout_margin">@dimen/default_big</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="TextViewArgumentStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="singleLine">true</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+
+    </style>
+
+    <style name="TextViewArgumentBoldStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="InputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/bg_input</item>
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColorHint">@color/purple_500</item>
     </style>
-    <style name="InputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+    <style name="InputLayoutStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/default_big</item>
         <item name="errorTextColor">@color/red</item>
-        <item name="errorEnabled">true</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="errorEnabled">false</item>
 
+        <item name="hintTextColor">@color/grey</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/default_big</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/default_big</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/default_big</item>
+        <item name="boxCornerRadiusTopStart">@dimen/default_big</item>
+        <item name="boxBackgroundColor">@color/grey_light</item>
+        <item name="boxStrokeErrorColor">@color/grey_light</item>
+        <item name="boxStrokeWidth">@dimen/zero</item>
+        <item name="boxStrokeColor">@color/grey_light</item>
+        <item name="boxStrokeWidthFocused">@dimen/zero</item>
+        <item name="boxBackgroundMode">outline</item>
     </style>
 
     <style name="CheckBoxBlue" parent="Widget.AppCompat.CompoundButton.CheckBox">
@@ -46,13 +80,18 @@
         <item name="android:textStyle">bold</item>
 
     </style>
-    
-    <style name="MyButtonStyle" parent="Widget.AppCompat.Button">
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/default_big</item>
         <item name="android:background">@drawable/bg_selector_button</item>
-
     </style>
+
+    <style name="HintStyle" parent="TextAppearance.AppCompat">
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+
 </resources>

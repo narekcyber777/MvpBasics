@@ -3,8 +3,8 @@ package com.narcyber.mvpbasics.model;
 import java.util.Objects;
 
 public class UserEmailPasswordStorage {
-    private  String email;
-    private  String password;
+    private String email;
+    private String password;
 
     public UserEmailPasswordStorage(String email, String password) {
         this.email = email;
@@ -26,7 +26,6 @@ public class UserEmailPasswordStorage {
     public void setPassword(String password) {
         this.password = password;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
