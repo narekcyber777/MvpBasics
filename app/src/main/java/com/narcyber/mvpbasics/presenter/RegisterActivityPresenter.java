@@ -14,10 +14,8 @@ public class RegisterActivityPresenter {
     private final RegisterView view;
     private final DataSaveHelper<User> dataSaveHelper;
 
-
     public RegisterActivityPresenter(RegisterView view, Context context) {
         this.view = view;
-
         dataSaveHelper = new DataSaveHelper<User>(context);
     }
 

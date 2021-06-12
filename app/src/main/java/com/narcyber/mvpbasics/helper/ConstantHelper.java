@@ -9,7 +9,13 @@ public class ConstantHelper {
     public static final String LOCAL_CHECK = "LOCAL_CHECKBOX_STATUS";
     public static String KEY_ID = "id";
     public static String KEY_EMAIL = "email";
+    public static final String WEATHER_GET_REQUEST = "weather?appid=3f2076070ae8fbcd02fac4b9569c6fb3&units=metric";
+    public static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
     public static String KEY_PASSWORD = "password";
+    public static final String WEATHER_API_KEY = "3f2076070ae8fbcd02fac4b9569c6fb3";
+    public static String KEY_USERNAME = "username";
+    public static String KEY_Full_Name = "full name";
+    public static String KEY_WEATHER_CELSIUS = "Weather Attr";
 
 
 }

@@ -16,13 +16,11 @@ public class MainActivityPresenter {
     private final DataSaveHelper<User> dataSaveHelper;
     private final DataSaveHelper<UserEmailPasswordStorage> userEmailPasswordDataHelper;
 
-
     public MainActivityPresenter(MainActivityView view, Context context) {
         this.view = view;
         dataSaveHelper = new DataSaveHelper<>(context);
         userEmailPasswordDataHelper = new DataSaveHelper<>(context);
     }
-
 
     public void findUserByEmailAndPassword(final String email, final String password) {
         List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
@@ -40,7 +38,6 @@ public class MainActivityPresenter {
         userEmailPasswordDataHelper.writeObject(ConstantHelper.LOCAL, userEmailPasswordStorage, UserEmailPasswordStorage.class);
     }
 
-
     public void sendPasswordAndEmailLastRegistered() {
         UserEmailPasswordStorage obj = userEmailPasswordDataHelper.readObject(ConstantHelper.LOCAL, UserEmailPasswordStorage.class);
         if (obj != null) {
@@ -48,7 +45,6 @@ public class MainActivityPresenter {
 
         }
     }
-
 
     public void removeLocal() {
         userEmailPasswordDataHelper.removeObject(ConstantHelper.LOCAL);
@@ -58,7 +54,6 @@ public class MainActivityPresenter {
         void ifExistGetKey(final String key);
 
         void savedPasswordAndEmail(final String email, String password);
-
 
     }
 }

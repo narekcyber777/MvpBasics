@@ -28,6 +28,37 @@
     <string name="error_empty">Sorry this field can\'t  be empty</string>
     <string name="user_not_found">User hasn\'t been found seems username or password is wrong</string>
     <string name="facebook">Facebook</string>
+    <string name="home">Home</string>
+    <string name="celsius">℃</string>
+    <string name="home_fragment">Home Fragment</string>
+    <string name="personal_fragment">Personal Fragment</string>
+    <string name="personal">Personal</string>
+    <string name="log_out">Log Out</string>
+    <string name="error_request_weather">It seems you don\'t have access to internet or the address is wrong </string>
+    <string name="weather_api_key">3f2076070ae8fbcd02fac4b9569c6fb3</string>
+    <string name="weather_get_request">weather?appid=3f2076070ae8fbcd02fac4b9569c6fb3&amp;units=metric</string>
+    <string name="base_url_weather">http://api.openweathermap.org/data/2.5/</string>
+
+    <string-array name="cities">
+        <item>Yerevan</item>
+        <item>Moscow</item>
+        <item>Baku</item>
+        <item>Paris</item>
+        <item>Barcelona</item>
+        <item>Los Angeles</item>
+        <item>Istanbul</item>
+        <item>Tbilisi</item>
+        <item>Tehran</item>
+        <item>Berlin</item>
+        <item>Milan</item>
+        <item>Barcelona</item>
+        <item>New York</item>
+        <item>London</item>
+        <item>Manchester</item>
+        <item>Ankara</item>
+        <item>Krasnodar</item>
+        <item>Rome</item>
+    </string-array>
 
 
 </resources>

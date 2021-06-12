@@ -58,8 +58,12 @@
         <TextView
             android:id="@+id/login"
             style="@style/TextViewArgumentStyle"
-            android:hint="@string/login"
-            />
+            android:hint="@string/login" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/log_out"
+        style="@style/ButtonStyle"
+        android:text="@string/log_out" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

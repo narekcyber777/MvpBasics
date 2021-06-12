@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
             rememberPasswordAndLoginIfNeed();
             Bundle bundle = new Bundle();
             bundle.putString(ConstantHelper.KEY_ID, key);
-            MyUtils.withArgumentsMoveToAndClear(bundle, this, UserActivity.class);
+            MyUtils.withArgumentsMoveToAndClear(bundle, this, HomeActivity.class);
         }
     }
 
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void rememberPasswordAndLoginIfNeed() {
         if (!root.checkBox.isChecked()) {
-            mainActivityPresenter.removeLocal();
+            // mainActivityPresenter.removeLocal();
         } else {
             boolean b = root.email.getText() != null && !root.email.getText().toString().isEmpty()
                     && root.password.getText() != null
