@@ -5,21 +5,15 @@ import android.content.Context;
 import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.helper.DataSaveHelper;
 import com.narcyber.mvpbasics.model.User;
-import com.narcyber.mvpbasics.model.UserEmailPasswordStorage;
 
 import java.util.List;
 
 public class MainActivityPresenter {
-
-    ;
     private final MainActivityView view;
     private final DataSaveHelper<User> dataSaveHelper;
-    private final DataSaveHelper<UserEmailPasswordStorage> userEmailPasswordDataHelper;
-
     public MainActivityPresenter(MainActivityView view, Context context) {
         this.view = view;
         dataSaveHelper = new DataSaveHelper<>(context);
-        userEmailPasswordDataHelper = new DataSaveHelper<>(context);
     }
 
     public void findUserByEmailAndPassword(final String email, final String password) {
@@ -33,22 +27,30 @@ public class MainActivityPresenter {
         }
         view.ifExistGetKey(null);
     }
+
     public void rememberPasswordAndEmail(final String email, final String password) {
-        UserEmailPasswordStorage userEmailPasswordStorage = new UserEmailPasswordStorage(email, password);
-        userEmailPasswordDataHelper.writeObject(ConstantHelper.LOCAL, userEmailPasswordStorage, UserEmailPasswordStorage.class);
+        dataSaveHelper.writeString(ConstantHelper.LOCAL_EMAIL, email);
+        dataSaveHelper.writeString(ConstantHelper.LOCAL_PASSWORD, password);
     }
 
     public void sendPasswordAndEmailLastRegistered() {
-        UserEmailPasswordStorage obj = userEmailPasswordDataHelper.readObject(ConstantHelper.LOCAL, UserEmailPasswordStorage.class);
-        if (obj != null) {
-            view.savedPasswordAndEmail(obj.getEmail(), obj.getPassword());
-
+        final String password = dataSaveHelper.getString(ConstantHelper.LOCAL_PASSWORD);
+        final String login = dataSaveHelper.getString(ConstantHelper.LOCAL_EMAIL);
+        if (!password.isEmpty() && !login.isEmpty()) {
+            view.savedPasswordAndEmail(login, password);
         }
+
     }
 
     public void removeLocal() {
-        userEmailPasswordDataHelper.removeObject(ConstantHelper.LOCAL);
+        dataSaveHelper.removeObject(ConstantHelper.LOCAL_PASSWORD);
+        dataSaveHelper.removeObject(ConstantHelper.LOCAL_EMAIL);
     }
+
+    public void clearData() {
+        dataSaveHelper.clear();
+    }
+
     public interface MainActivityView {
 
         void ifExistGetKey(final String key);

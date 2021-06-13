@@ -2,25 +2,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/bg_selector"
         android:title="@string/home"
+        android:menuCategory="secondary"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/empty"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/home"
+        android:id="@+id/favouriteFragment"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:menuCategory="secondary"
+        android:title="@string/favourites"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/one"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/home"
+        android:id="@+id/newsFragment"
+        android:icon="@drawable/ic_baseline_announcement_24"
+        android:menuCategory="secondary"
+        android:title="@string/news"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/personal"
+        android:id="@+id/userPersonalFragment"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/personal"
+        android:menuCategory="secondary"
         app:showAsAction="ifRoom" />
 
 

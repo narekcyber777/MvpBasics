@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.narcyber.mvpbasics.databinding.ActivityUserBinding;
@@ -15,14 +16,18 @@ import com.narcyber.mvpbasics.view.HomeActivity;
 import com.narcyber.mvpbasics.view.MainActivity;
 
 public class UserPersonalFragment extends Fragment {
-
     private ActivityUserBinding root;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = ActivityUserBinding.inflate(inflater, container, false);
-        inIt();
         return root.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        inIt();
     }
 
     private void inIt() {

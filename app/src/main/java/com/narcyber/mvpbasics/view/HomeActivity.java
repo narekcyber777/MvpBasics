@@ -2,29 +2,28 @@ package com.narcyber.mvpbasics.view;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.narcyber.mvpbasics.R;
 import com.narcyber.mvpbasics.databinding.ActivityHomeBinding;
 import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.presenter.HomeActivityPresenter;
 import com.narcyber.mvpbasics.utils.MyUtils;
-import com.narcyber.mvpbasics.view.fragments.HomeFragment;
-import com.narcyber.mvpbasics.view.fragments.UserPersonalFragment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomeActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener,
+public class HomeActivity extends AppCompatActivity implements
         HomeActivityPresenter.HomeViewActivity {
     public static Map<String, String> userMap;
     private ActivityHomeBinding root;
-    private BottomNavigationView.OnNavigationItemSelectedListener nav_listener;
     private HomeActivityPresenter homeActivityPresenter;
+    private NavController navController;
+    private NavHostFragment navHostFragment;
+    private NavController.OnDestinationChangedListener navDestinyChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,60 +33,49 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.Home
         inIt();
     }
 
+    private void setUpNavigation() {
+        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(root.navBarBottom, navController);
+        navDestinyChangeListener = getDestinationChangeListener();
+    }
+
     private void inIt() {
         homeActivityPresenter = new HomeActivityPresenter(this, this);
+
         try {
             homeActivityPresenter.userGetAndUpdateView(getIntent().getStringExtra(ConstantHelper.KEY_ID));
         } catch (NullPointerException ignored) {
         }
-        nav_listener = getNavListener();
-        root.navBarBottom.setOnNavigationItemSelectedListener(nav_listener);
-        inflateDefaultFragment();
+        setUpNavigation();
     }
 
-    public void attachFragment(@NonNull final Fragment fragment, final String TAG, int Where, boolean haveBackStack) {
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (haveBackStack) {
-            ft.addToBackStack(TAG);
-        } else {
-            ft.addToBackStack(null);
-        }
-        ft.replace(Where, fragment, TAG);
-        ft.commit();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerListeners();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterListeners();
+    }
+
+    private void unregisterListeners() {
+        navController.removeOnDestinationChangedListener(navDestinyChangeListener);
+    }
+
+    private void registerListeners() {
+        navController.addOnDestinationChangedListener(navDestinyChangeListener);
     }
 
     public void removeLocal() {
         homeActivityPresenter.removeLocal();
     }
 
-    private void inflateDefaultFragment() {
-        HomeFragment homeFragment = new HomeFragment();
-        attachFragment(homeFragment, getString(R.string.personal_fragment), R.id.frame, true);
-    }
-
-    @Override
     public void inflateWeatherActivity(Bundle bundle) {
         MyUtils.withArgumentsMoveTo(bundle, this, WeatherActivity.class);
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener getNavListener() {
-        return item -> {
-            switch (item.getItemId()) {
-                case R.id.home:
-                    inflateDefaultFragment();
-
-                    break;
-                case R.id.personal:
-                    UserPersonalFragment userPersonalFragment = new UserPersonalFragment();
-                    attachFragment(userPersonalFragment,
-                            getString(R.string.personal_fragment)
-                            , R.id.frame, true);
-
-
-                    break;
-            }
-            return true;
-        };
     }
 
     @Override
@@ -98,5 +86,10 @@ public class HomeActivity extends AppCompatActivity implements HomeFragment.Home
         userMap.put(ConstantHelper.KEY_EMAIL, email);
         userMap.put(ConstantHelper.KEY_Full_Name, fullName);
         userMap.put(ConstantHelper.KEY_USERNAME, username);
+    }
+
+    private NavController.OnDestinationChangedListener getDestinationChangeListener() {
+        return (controller, destination, arguments) -> {
+        };
     }
 }

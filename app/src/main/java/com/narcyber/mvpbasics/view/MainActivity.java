@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements
     private TextWatcher emailTextWatcher, passwordTextWatcher;
     private MainActivityPresenter mainActivityPresenter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +37,24 @@ public class MainActivity extends AppCompatActivity implements
             if (!validateAndFind()) {
                 removeAllSavedObjects();
                 MyUtils.showInToast(MainActivity.this, getString(R.string.error_sign_up));
+            }
+        });
+
+        root.email.setOnClickListener(v -> {
+            if (root.emailLayout.getError() != null &&
+                    root.emailLayout.getError().toString()
+                            .equalsIgnoreCase(getString(R.string.user_not_found))) {
+                root.emailLayout.setError(null);
+                root.passLayout.setError(null);
+            }
+
+        });
+        root.password.setOnClickListener(v -> {
+            if (root.passLayout.getError() != null &&
+                    root.passLayout.getError().toString()
+                            .equalsIgnoreCase(getString(R.string.user_not_found))) {
+                root.emailLayout.setError(null);
+                root.passLayout.setError(null);
             }
         });
 
@@ -137,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void ifExistGetKey(String key) {
         if (key == null) {
-
             root.emailLayout.setError(getString(R.string.user_not_found));
             root.passLayout.setError(getString(R.string.user_not_found));
             MyUtils.showInToast(this, getString(R.string.error_sign_in));
@@ -151,19 +167,22 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void savedPasswordAndEmail(String email, String password) {
-        mainActivityPresenter.findUserByEmailAndPassword(email, password);
+        root.email.setText(email);
+        root.password.setText(password);
+        root.checkBox.setChecked(true);
     }
 
     private void rememberPasswordAndLoginIfNeed() {
         if (!root.checkBox.isChecked()) {
-            // mainActivityPresenter.removeLocal();
-        } else {
+            mainActivityPresenter.removeLocal();
+            return;
+        }
             boolean b = root.email.getText() != null && !root.email.getText().toString().isEmpty()
                     && root.password.getText() != null
                     && !root.password.getText().toString().isEmpty();
             if (b) mainActivityPresenter.rememberPasswordAndEmail(root.email.getText().toString(),
                     root.password.getText().toString());
-        }
+
     }
 
     private boolean validateAndFind() {

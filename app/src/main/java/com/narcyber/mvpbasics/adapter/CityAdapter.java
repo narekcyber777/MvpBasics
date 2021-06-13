@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class CityAdapter extends ListAdapter<String, CityAdapter.CityAdapterViewHolder> implements Filterable {
     private final CityAdapterCallBack cityAdapterCallBack;
     private ArrayList<String> allItems;
@@ -39,9 +40,8 @@ public class CityAdapter extends ListAdapter<String, CityAdapter.CityAdapterView
 
         @Override
         protected void publishResults(CharSequence c, FilterResults results) {
-            List<String> arrayList = new ArrayList<String>((Collection<? extends String>) results.values);
+            final List<String> arrayList = new ArrayList<String>((Collection<? extends String>) results.values);
             CityAdapter.this.submitList(arrayList);
-
         }
     };
 

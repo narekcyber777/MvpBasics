@@ -38,6 +38,10 @@
     <string name="weather_api_key">3f2076070ae8fbcd02fac4b9569c6fb3</string>
     <string name="weather_get_request">weather?appid=3f2076070ae8fbcd02fac4b9569c6fb3&amp;units=metric</string>
     <string name="base_url_weather">http://api.openweathermap.org/data/2.5/</string>
+    <string name="favourites">Favourites</string>
+    <string name="news">News</string>
+    <string name="favourite_fragment">Favourite Fragment</string>
+
 
     <string-array name="cities">
         <item>Yerevan</item>

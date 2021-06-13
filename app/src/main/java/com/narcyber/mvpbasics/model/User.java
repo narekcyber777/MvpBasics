@@ -1,10 +1,11 @@
 package com.narcyber.mvpbasics.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class User {
-
+public class User implements Serializable {
+    static final long serialVersionUID = 42L;
     private String id;
     private String email;
     private String fullName;
@@ -19,8 +20,8 @@ public class User {
         generateRandomId();
     }
 
-    public User() {
-        generateRandomId();
+    public void setId(String id) {
+        this.id = id;
     }
 
     private void generateRandomId() {

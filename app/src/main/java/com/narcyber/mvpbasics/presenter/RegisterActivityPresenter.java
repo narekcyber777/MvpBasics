@@ -22,9 +22,11 @@ public class RegisterActivityPresenter {
     public boolean isUsernameTaken(@NonNull String username) {
         List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
         for (User user : users) {
-            if (user.getUserName().trim().equalsIgnoreCase(username.trim())) {
-                view.isUsernameUsed(true);
-                return true;
+            if (user != null) {
+                if (user.getUserName().trim().equalsIgnoreCase(username.trim())) {
+                    view.isUsernameUsed(true);
+                    return true;
+                }
             }
         }
         view.isUsernameUsed(false);
@@ -38,7 +40,9 @@ public class RegisterActivityPresenter {
     public boolean isEmailTaken(@NonNull String email) {
         List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
         for (User user : users) {
-            if (user == null) continue;
+            if (user == null) {
+                continue;
+            }
             if (user.getEmail().trim().equalsIgnoreCase(email.trim())) {
                 view.isEmailUsed(true);
                 return true;
