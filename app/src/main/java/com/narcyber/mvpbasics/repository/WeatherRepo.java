@@ -23,6 +23,7 @@ public class WeatherRepo {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         presentable.getDisposables().add(d);
+                        presentable.onSubscribe();
                     }
 
                     @Override
