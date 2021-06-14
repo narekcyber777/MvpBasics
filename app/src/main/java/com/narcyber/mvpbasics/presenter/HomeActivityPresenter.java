@@ -16,7 +16,6 @@ public class HomeActivityPresenter {
     public HomeActivityPresenter(HomeViewActivity view, Context context) {
         this.view = view;
         dataSaveHelper = new DataSaveHelper<>(context);
-
     }
 
     public void userGetAndUpdateView(String key) {

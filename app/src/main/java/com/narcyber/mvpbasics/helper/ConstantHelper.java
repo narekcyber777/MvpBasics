@@ -16,7 +16,7 @@ public class ConstantHelper {
     public static final String WEATHER_API_KEY = "3f2076070ae8fbcd02fac4b9569c6fb3";
     public static String KEY_USERNAME = "username";
     public static String KEY_Full_Name = "full name";
-    public static String KEY_WEATHER_CELSIUS = "Weather Attr";
+    public static String KEY_WEATHER_CELSIUS = "city_weather";
 
 
 }

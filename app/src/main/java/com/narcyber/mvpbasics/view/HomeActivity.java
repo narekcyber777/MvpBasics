@@ -21,9 +21,6 @@ public class HomeActivity extends AppCompatActivity implements
     public static Map<String, String> userMap;
     private ActivityHomeBinding root;
     private HomeActivityPresenter homeActivityPresenter;
-    private NavController navController;
-    private NavHostFragment navHostFragment;
-    private NavController.OnDestinationChangedListener navDestinyChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +31,9 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     private void setUpNavigation() {
-        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        navController = navHostFragment.getNavController();
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(root.navBarBottom, navController);
-        navDestinyChangeListener = getDestinationChangeListener();
     }
 
     private void inIt() {
@@ -48,26 +44,6 @@ public class HomeActivity extends AppCompatActivity implements
         } catch (NullPointerException ignored) {
         }
         setUpNavigation();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        registerListeners();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterListeners();
-    }
-
-    private void unregisterListeners() {
-        navController.removeOnDestinationChangedListener(navDestinyChangeListener);
-    }
-
-    private void registerListeners() {
-        navController.addOnDestinationChangedListener(navDestinyChangeListener);
     }
 
     public void removeLocal() {
@@ -88,8 +64,4 @@ public class HomeActivity extends AppCompatActivity implements
         userMap.put(ConstantHelper.KEY_USERNAME, username);
     }
 
-    private NavController.OnDestinationChangedListener getDestinationChangeListener() {
-        return (controller, destination, arguments) -> {
-        };
-    }
 }

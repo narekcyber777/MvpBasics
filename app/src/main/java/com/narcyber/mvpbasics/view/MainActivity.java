@@ -16,7 +16,6 @@ import com.narcyber.mvpbasics.utils.Validator;
 
 public class MainActivity extends AppCompatActivity implements
         MainActivityPresenter.MainActivityView {
-
     private ActivityMainBinding root;
     private TextWatcher emailTextWatcher, passwordTextWatcher;
     private MainActivityPresenter mainActivityPresenter;
