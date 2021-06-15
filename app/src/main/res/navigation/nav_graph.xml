@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -18,7 +19,18 @@
         android:id="@+id/userPersonalFragment"
         android:name="com.narcyber.mvpbasics.view.fragments.UserPersonalFragment"
         android:label="Personal "
-        tools:layout="@layout/activity_user" />
+        tools:layout="@layout/fragment_user_personal">
+
+        <action
+            android:id="@+id/action_userPersonalFragment_to_allUsersFragment"
+            app:destination="@id/allUsersFragment" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+        <argument
+            android:name="user"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/newsFragment"
         android:name="com.narcyber.mvpbasics.view.fragments.NewsFragment"
@@ -38,4 +50,12 @@
             android:defaultValue=""
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/allUsersFragment"
+        android:name="com.narcyber.mvpbasics.view.fragments.AllUsersFragment"
+        android:label="AllUsersFragment">
+        <argument
+            android:name="userName"
+            app:argType="string" />
+    </fragment>
 </navigation>

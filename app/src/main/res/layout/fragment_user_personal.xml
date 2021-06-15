@@ -64,4 +64,10 @@
         style="@style/ButtonStyle"
         android:text="@string/log_out" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/all_users"
+        style="@style/ButtonStyle"
+        android:text="@string/all_users" />
+
+
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.narcyber.mvpbasics.R;
 import com.narcyber.mvpbasics.databinding.ActivityMainBinding;
 import com.narcyber.mvpbasics.helper.ConstantHelper;
+import com.narcyber.mvpbasics.model.User;
 import com.narcyber.mvpbasics.presenter.MainActivityPresenter;
 import com.narcyber.mvpbasics.utils.MyUtils;
 import com.narcyber.mvpbasics.utils.TextCustomizer;
@@ -156,15 +157,15 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void ifExistGetUsername(String key) {
-        if (key == null) {
+    public void ifExistGetUsername(User user) {
+        if (user == null) {
             root.emailLayout.setError(getString(R.string.user_not_found));
             root.passLayout.setError(getString(R.string.user_not_found));
             MyUtils.showInToast(this, getString(R.string.error_sign_in));
         } else {
             rememberPasswordAndLoginIfNeed();
             Bundle bundle = new Bundle();
-            bundle.putString(ConstantHelper.KEY_ID, key);
+            bundle.putSerializable(ConstantHelper.KEY_ID, user);
             MyUtils.withArgumentsMoveToAndClear(bundle, this, HomeActivity.class);
         }
     }

@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import com.narcyber.mvpbasics.R;
 import com.narcyber.mvpbasics.adapter.CityAdapter;
 import com.narcyber.mvpbasics.databinding.FragmentHomeBinding;
-import com.narcyber.mvpbasics.presenter.HomeActivityPresenter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +22,11 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding root;
-    private HomeActivityPresenter homeActivityPresenter;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = FragmentHomeBinding.inflate(inflater, container, false);
+
         return root.getRoot();
     }
 
@@ -42,13 +40,10 @@ public class HomeFragment extends Fragment {
     private void customizeWidgets() {
         root.recycler.addItemDecoration(new DividerItemDecoration(
                 root.getRoot().getContext(), DividerItemDecoration.VERTICAL));
-
-
     }
 
     public void inIt(View view) {
-        homeActivityPresenter = new
-                HomeActivityPresenter((HomeActivityPresenter.HomeViewActivity) getActivity(), getActivity());
+
         final List<String> cities = new ArrayList<>(Arrays.asList(getResources()
                 .getStringArray(R.array.cities)));
         CityAdapter cityAdapter = new CityAdapter(new CityAdapter.CityAdapterCallBack() {
@@ -85,9 +80,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (homeActivityPresenter != null) {
-            homeActivityPresenter.clearDisposables();
-            homeActivityPresenter = null;
-        }
+
     }
 }

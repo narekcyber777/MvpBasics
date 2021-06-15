@@ -49,11 +49,7 @@ public class MainActivityPresenter extends ParentPresenter implements UserReposi
 
     @Override
     public void respondUserByEmailAndPassword(User user) {
-        if (user == null) {
-            view.ifExistGetUsername(null);
-        } else {
-            view.ifExistGetUsername(user.getUserName());
-        }
+        view.ifExistGetUsername(user);
     }
 
     @Override
@@ -63,7 +59,7 @@ public class MainActivityPresenter extends ParentPresenter implements UserReposi
 
     public interface MainActivityView {
 
-        void ifExistGetUsername(final String key);
+        void ifExistGetUsername(final User user);
 
         void savedPasswordAndEmail(final String email, String password);
 

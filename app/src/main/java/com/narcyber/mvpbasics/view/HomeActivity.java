@@ -10,15 +10,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.narcyber.mvpbasics.R;
 import com.narcyber.mvpbasics.databinding.ActivityHomeBinding;
 import com.narcyber.mvpbasics.helper.ConstantHelper;
+import com.narcyber.mvpbasics.model.User;
 import com.narcyber.mvpbasics.presenter.HomeActivityPresenter;
-import com.narcyber.mvpbasics.utils.MyUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements
         HomeActivityPresenter.HomeViewActivity {
-    public static Map<String, String> userMap;
+    public static User user;
     private ActivityHomeBinding root;
     private HomeActivityPresenter homeActivityPresenter;
 
@@ -34,16 +31,17 @@ public class HomeActivity extends AppCompatActivity implements
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(root.navBarBottom, navController);
+
     }
 
     private void inIt() {
         homeActivityPresenter = new HomeActivityPresenter(this, this);
-
-        try {
-            homeActivityPresenter.userGetAndUpdateView(getIntent().getStringExtra(ConstantHelper.KEY_ID));
-        } catch (NullPointerException ignored) {
+        if (getIntent().hasExtra(ConstantHelper.KEY_ID)) {
+            user = (User) getIntent().getSerializableExtra(ConstantHelper.KEY_ID);
+            setUpNavigation();
         }
-        setUpNavigation();
+
+
     }
 
     public void removeLocal() {
@@ -51,19 +49,8 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    @Override
-    public void userProperties(String email, String username, String fullName) {
-        if (userMap == null) {
-            userMap = new HashMap<>();
-        }
-        userMap.put(ConstantHelper.KEY_EMAIL, email);
-        userMap.put(ConstantHelper.KEY_Full_Name, fullName);
-        userMap.put(ConstantHelper.KEY_USERNAME, username);
-    }
 
-    @Override
-    public void networkError() {
-        MyUtils.showInToast(this, "Network error");
-    }
+
+
 
 }

@@ -44,6 +44,7 @@
     <string name="favourite_fragment">Favourite Fragment</string>
     <string name="yerevan">YEREVAN</string>
     <string name="zero">0</string>
+    <string name="all_users">All Users</string>
 
 
     <string-array name="cities">
