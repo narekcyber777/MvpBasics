@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.narcyber.mvpbasics.databinding.FragmentNewsBinding;
-
 public class NewsFragment extends Fragment {
     private FragmentNewsBinding root;
 

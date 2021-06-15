@@ -1,6 +1,6 @@
 package com.narcyber.mvpbasics.presenter;
 
-import com.narcyber.mvpbasics.repository.WeatherRepo;
+import com.narcyber.mvpbasics.remote.WeatherRepo;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 

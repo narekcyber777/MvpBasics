@@ -31,8 +31,12 @@ public class MainActivity extends AppCompatActivity implements
 
     private void inIt() {
         mainActivityPresenter = new MainActivityPresenter(this, getApplicationContext());
+
+        mainActivityPresenter.getUserRepository().requestForAllUsers();
         mainActivityPresenter.sendPasswordAndEmailLastRegistered();
+
         root.signIn.setOnClickListener(v -> {
+
             if (!validateAndFind()) {
                 removeAllSavedObjects();
                 MyUtils.showInToast(MainActivity.this, getString(R.string.error_sign_up));
@@ -150,8 +154,9 @@ public class MainActivity extends AppCompatActivity implements
         return root.passLayout.getError() == null && root.emailLayout.getError() == null;
     }
 
+
     @Override
-    public void ifExistGetKey(String key) {
+    public void ifExistGetUsername(String key) {
         if (key == null) {
             root.emailLayout.setError(getString(R.string.user_not_found));
             root.passLayout.setError(getString(R.string.user_not_found));
@@ -185,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private boolean validateAndFind() {
+        mainActivityPresenter.clearDisposables();
         String email, password;
         email = password = null;
         if (root.email.getText() == null || root.email.getText().toString().isEmpty()) {

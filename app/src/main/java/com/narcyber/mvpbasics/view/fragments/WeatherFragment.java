@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.narcyber.mvpbasics.databinding.FragmentWeatherBinding;
-import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.presenter.WeatherFragmentPresenter;
 import com.narcyber.mvpbasics.utils.MyUtils;
 
@@ -28,10 +27,8 @@ public class WeatherFragment extends Fragment implements WeatherFragmentPresente
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         weatherFragmentPresenter = new WeatherFragmentPresenter(this);
-        if (getArguments() != null && getArguments().getString(ConstantHelper.KEY_WEATHER_CELSIUS) != null) {
-            root.cityName.setText(getArguments().getString(ConstantHelper.KEY_WEATHER_CELSIUS));
-        }
-
+        WeatherFragmentArgs args = WeatherFragmentArgs.fromBundle(getArguments());
+        root.cityName.setText(args.getCityWeather());
     }
 
     @Override

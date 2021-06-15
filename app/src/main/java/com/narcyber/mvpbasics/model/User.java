@@ -1,15 +1,30 @@
 package com.narcyber.mvpbasics.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+import com.narcyber.mvpbasics.helper.ConstantHelper;
+
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
+@Entity(tableName = ConstantHelper.ROOM_USER_TABLE_NAME,
+        indices = {@Index(value = {ConstantHelper.ROOM_USER_COLUMN_USERNAME}, unique = true)})
 public class User implements Serializable {
+    @Ignore
     static final long serialVersionUID = 42L;
-    private String id;
-    private String email;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_NAME)
     private String fullName;
+    @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_USERNAME)
     private String userName;
+    @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_EMAIL)
+    private String email;
+    @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_PASSWORD)
     private String password;
 
     public User(String email, String fullName, String userName, String password) {
@@ -17,15 +32,6 @@ public class User implements Serializable {
         this.fullName = fullName;
         this.userName = userName;
         this.password = password;
-        generateRandomId();
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    private void generateRandomId() {
-        this.id = UUID.randomUUID().toString();
     }
 
     @Override
@@ -33,11 +39,15 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return id.equals(user.id) &&
+        return id == user.id &&
                 email.equals(user.email) &&
                 fullName.equals(user.fullName) &&
                 userName.equals(user.userName) &&
                 password.equals(user.password);
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -77,8 +87,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getId() {
-        return id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -1,15 +1,12 @@
 package com.narcyber.mvpbasics.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.helper.DataSaveHelper;
 import com.narcyber.mvpbasics.model.User;
 
-import java.util.List;
-
-public class HomeActivityPresenter {
+public class HomeActivityPresenter extends ParentPresenter {
     private final HomeViewActivity view;
     private final DataSaveHelper<User> dataSaveHelper;
 
@@ -19,18 +16,16 @@ public class HomeActivityPresenter {
     }
 
     public void userGetAndUpdateView(String key) {
-        List<User> users = dataSaveHelper.getAllCurrentObjects(User.class);
-        for (User us : users) {
-            if (us.getId().equalsIgnoreCase(key.trim())) {
-                view.userProperties(us.getEmail(), us.getUserName(), us.getFullName());
-                return;
-            }
-        }
+        getUserRepository().requestUserByUsername(key);
     }
 
-
-    public void inflateWeatherActivity(Bundle bundle) {
-        view.inflateWeatherActivity(bundle);
+    @Override
+    public void respondUserByUserName(User user) {
+        if (user == null) {
+            view.networkError();
+        } else {
+            view.userProperties(user.getEmail(), user.getUserName(), user.getFullName());
+        }
     }
 
     public void removeLocal() {
@@ -41,7 +36,7 @@ public class HomeActivityPresenter {
     public interface HomeViewActivity {
         void userProperties(String email, String username, String fullName);
 
-        void inflateWeatherActivity(Bundle bundle);
+        void networkError();
     }
 
 }

@@ -28,8 +28,8 @@ public class HomeActivity extends AppCompatActivity implements
         root = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(root.getRoot());
         inIt();
-    }
 
+    }
     private void setUpNavigation() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
@@ -50,9 +50,6 @@ public class HomeActivity extends AppCompatActivity implements
         homeActivityPresenter.removeLocal();
     }
 
-    public void inflateWeatherActivity(Bundle bundle) {
-        MyUtils.withArgumentsMoveTo(bundle, this, WeatherActivity.class);
-    }
 
     @Override
     public void userProperties(String email, String username, String fullName) {
@@ -62,6 +59,11 @@ public class HomeActivity extends AppCompatActivity implements
         userMap.put(ConstantHelper.KEY_EMAIL, email);
         userMap.put(ConstantHelper.KEY_Full_Name, fullName);
         userMap.put(ConstantHelper.KEY_USERNAME, username);
+    }
+
+    @Override
+    public void networkError() {
+        MyUtils.showInToast(this, "Network error");
     }
 
 }

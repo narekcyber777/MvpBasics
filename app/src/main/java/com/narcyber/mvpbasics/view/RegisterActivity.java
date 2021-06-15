@@ -35,10 +35,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         registerActivityPresenter = new RegisterActivityPresenter(this, this);
         root.signUp.setEnabled(true);
         root.signUp.setOnClickListener(v -> {
-            if (validateAndSend()) {
-                MyUtils.showInToast(RegisterActivity.this, getString(R.string.success_sign_up));
-                MyUtils.moveToAndClear(RegisterActivity.this, MainActivity.class);
-            } else {
+            if (!validateAndSend()) {
                 if (isTermsErrorShown) {
                     MyUtils.showInToast(RegisterActivity.this, getString(R.string.accept_terms_please));
                 } else {
@@ -252,6 +249,20 @@ public class RegisterActivity extends AppCompatActivity implements RegisterActiv
         } else {
             root.usernameLayout.setError(getString(R.string.email_used));
         }
+        return false;
+    }
+
+    @Override
+    public boolean notifyUserSuccessRegistered() {
+
+        MyUtils.showInToast(RegisterActivity.this, getString(R.string.success_sign_up));
+        MyUtils.moveToAndClear(RegisterActivity.this, MainActivity.class);
+        return false;
+    }
+
+    @Override
+    public boolean notifyUserRegFailed() {
+        MyUtils.showInToast(this, getString(R.string.error_sign_in));
         return false;
     }
 

@@ -82,7 +82,12 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (homeActivityPresenter != null) {
+            homeActivityPresenter.clearDisposables();
+            homeActivityPresenter = null;
+        }
+    }
 }

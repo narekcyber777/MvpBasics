@@ -1,4 +1,4 @@
-package com.narcyber.mvpbasics.repository;
+package com.narcyber.mvpbasics.remote;
 
 import com.narcyber.mvpbasics.helper.ConstantHelper;
 import com.narcyber.mvpbasics.model.Weather;
@@ -53,7 +53,6 @@ public class WeatherRepo {
         void failedResponse(String error);
 
         void isFinished(boolean isFinished);
-
 
         CompositeDisposable getDisposables();
     }
