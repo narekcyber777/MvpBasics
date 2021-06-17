@@ -95,6 +95,7 @@
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/checkBox"
                 style="@style/CheckBoxBlue"
+                android:text="@string/accept_terms_please"
                 android:imeOptions="actionDone" />
 
         </LinearLayout>

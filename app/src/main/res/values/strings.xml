@@ -17,7 +17,7 @@
     <string name="invalid_full_name">Invalid Full Name  </string>
     <string name="email_used">Sorry Email is used by other user  </string>
     <string name="username_used">Sorry Username is used by other user </string>
-    <string name="accept_terms_please">Please Accept our  Terms and Conditions</string>
+    <string name="accept_terms_please">Please Accept our </string>
     <string name="or_use">Or use</string>
     <string name="forget_password">Forgot Password?</string>
     <string name="name">Name</string>
@@ -45,6 +45,7 @@
     <string name="yerevan">YEREVAN</string>
     <string name="zero">0</string>
     <string name="all_users">All Users</string>
+    <string name="key_id">key of some object</string>
 
 
     <string-array name="cities">

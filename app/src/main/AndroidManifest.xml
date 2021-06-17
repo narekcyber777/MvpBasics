@@ -16,15 +16,6 @@
         android:theme="@style/Theme.MvpBasics"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
-        <activity
-            android:name=".view.MainActivity"
-            android:launchMode="standard"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".view.WeatherActivity"
@@ -35,6 +26,17 @@
         <activity
             android:name=".view.RegisterActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+
+        <activity
+            android:name=".view.MainActivity"
+            android:theme="@style/Theme.MvpBasics"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
