@@ -25,6 +25,7 @@ class UserRepository(val presenter: PresenterContract) {
                 }
 
                 override fun onNext(t: List<User>?) {
+                    presenter.respondForAllUsers(t)
 
                 }
 
