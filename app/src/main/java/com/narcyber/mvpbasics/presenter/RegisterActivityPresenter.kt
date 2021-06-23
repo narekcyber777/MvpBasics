@@ -1,14 +1,11 @@
 package com.narcyber.mvpbasics.presenter
 
-import com.narcyber.mvpbasics.helper.DataSaveHelper
 import com.narcyber.mvpbasics.model.User
 
-class RegisterActivityPresenter(val view: RegisterView, val dataSaveHelper: DataSaveHelper) :
+class RegisterActivityPresenter(val view: RegisterView) :
     ParentPresenter() {
-
     fun isUserNameTaken(userName: String = ""): Boolean {
         userRepository.requestUserByUsername(userName)
-
         return true
     }
 
@@ -18,13 +15,12 @@ class RegisterActivityPresenter(val view: RegisterView, val dataSaveHelper: Data
     }
 
     fun pushUserIntoDB(
-        email: String = "",
-        userName: String = "",
-        name: String = "",
-        password: String = ""
+        email: String,
+        userName: String,
+        name: String,
+        password: String,
     ) {
-        if (email.isEmpty() || userName.isEmpty() || name.isEmpty() || password.isEmpty()) return
-        val user = User(email, name, userName, password)
+        val user = User(email = email, fullName = name, userName = userName, password = password)
         userRepository.requestUserPush(user)
     }
 
@@ -51,7 +47,6 @@ class RegisterActivityPresenter(val view: RegisterView, val dataSaveHelper: Data
         }
         view.isUsernameUsed(true)
     }
-
 
     interface RegisterView {
         fun isEmailUsed(isUsed: Boolean): Boolean

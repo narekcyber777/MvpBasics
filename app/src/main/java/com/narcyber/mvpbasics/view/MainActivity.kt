@@ -116,12 +116,12 @@ class MainActivity : AppCompatActivity(), MainActivityPresenter.MainActivityView
         var email: String = ""
         var password: String = ""
 
-        if (root.email.text == null || root.email.text.toString().isEmpty()) {
+        if (isBlankIn(root.email)) {
             root.emailLayout.error = getString(R.string.error_empty)
         } else {
             email = root.email.text.toString()
         }
-        if (root.password.text == null || root.password.text.toString().isEmpty()) {
+        if (isBlankIn(root.password)) {
             root.passLayout.error = getString(R.string.error_empty)
         } else {
             password = root.password.text.toString()
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity(), MainActivityPresenter.MainActivityView
     }
 
     private fun singInStatusCheck(): Boolean =
-        root.passLayout.error == null && root.emailLayout.error == null
+        isNull(root.passLayout.error) && isNull(root.emailLayout.error)
 
     private fun removeAllSavedObjects() {
         mainActivityPresenter.removeLocal()
@@ -144,13 +144,13 @@ class MainActivity : AppCompatActivity(), MainActivityPresenter.MainActivityView
         root.checkBox.isChecked = true
     }
 
-    open fun rememberPasswordAndLoginIfNeed() {
+    private fun rememberPasswordAndLoginIfNeed() {
         if (!root.checkBox.isChecked) {
             mainActivityPresenter.removeLocal()
             return
         }
-        val b = (root.email.text != null && !root.email.text.toString().isEmpty()
-                && root.password.text != null && !root.password.text.toString().isEmpty())
+        val b = (isNull(root.email)
+                && isNull(root.password))
         if (b) mainActivityPresenter.rememberPasswordAndEmail(
             root.email.text.toString(),
             root.password.text.toString()

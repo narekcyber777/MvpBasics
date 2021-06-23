@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFC107"
+    android:gravity="center">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/v1"
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/airlines_v1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/v2"
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/airlines_v2" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -15,13 +15,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class UserRepository(val presenter: PresenterContract) {
     fun requestForAllUsers() {
-
         RoomDb.instance.userDao().getAllUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<List<User>> {
                 override fun onSubscribe(d: Disposable?) {
-
                 }
 
                 override fun onNext(t: List<User>?) {

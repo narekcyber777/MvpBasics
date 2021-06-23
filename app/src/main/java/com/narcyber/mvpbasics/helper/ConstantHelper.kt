@@ -14,12 +14,13 @@ class ConstantHelper {
         const val WEATHER_GET_REQUEST =
             "weather?appid=3f2076070ae8fbcd02fac4b9569c6fb3&units=metric"
         const val BASE_URL = "http://api.openweathermap.org/data/2.5/"
+        const val BASE_AIRLINES_URL = "https://api.instantwebtools.net/v1/"
         const val KEY_PASSWORD = "password"
         const val WEATHER_API_KEY = "3f2076070ae8fbcd02fac4b9569c6fb3"
+        const val progressViewProperty = "Porgress"
         const val KEY_USERNAME = "username"
         const val KEY_Full_Name = "full name"
         const val KEY_WEATHER_CELSIUS = "city_weather"
-
         const val ROOM_DB_NAME = "local_room"
         const val ROOM_USER_TABLE_NAME = "users"
         const val ROOM_USER_COLUMN_NAME = "full_name"

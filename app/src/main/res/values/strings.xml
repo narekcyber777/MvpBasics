@@ -37,8 +37,10 @@
     <string name="error_request_weather">It seems you don\'t have access to internet or the address is wrong </string>
     <string name="weather_api_key">3f2076070ae8fbcd02fac4b9569c6fb3</string>
     <string name="weather_get_request">weather?appid=3f2076070ae8fbcd02fac4b9569c6fb3&amp;units=metric</string>
+    <string name="arilines_get_request">passenger?page=0&amp;size=10</string>
     <string name="weather_celsius_attr">Weather key Celsius</string>
     <string name="base_url_weather">http://api.openweathermap.org/data/2.5/</string>
+    <string name="base_url_airlines">https://api.instantwebtools.net/v1/</string>
     <string name="favourites">Favourites</string>
     <string name="news">News</string>
     <string name="favourite_fragment">Favourite Fragment</string>
@@ -46,6 +48,8 @@
     <string name="zero">0</string>
     <string name="all_users">All Users</string>
     <string name="key_id">key of some object</string>
+    <string name="airlines_v1">Airlines V1</string>
+    <string name="airlines_v2">"Airlines V2 "</string>
 
 
     <string-array name="cities">

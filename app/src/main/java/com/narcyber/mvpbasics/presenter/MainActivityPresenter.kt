@@ -14,7 +14,6 @@ class MainActivityPresenter(val view: MainActivityView, val dataSaveHelper: Data
     fun rememberPasswordAndEmail(email: String, password: String) {
         dataSaveHelper.writeString(ConstantHelper.KEY_EMAIL, email)
         dataSaveHelper.writeString(ConstantHelper.KEY_PASSWORD, password)
-
     }
 
     fun sendPasswordAndEmailLastRegistered() {

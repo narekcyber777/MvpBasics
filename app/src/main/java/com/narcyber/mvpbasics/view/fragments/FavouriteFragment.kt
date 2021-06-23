@@ -13,7 +13,7 @@ class FavouriteFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return FragmentFavouriteBinding.inflate(inflater, container, false).root
     }

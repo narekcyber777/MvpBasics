@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import com.narcyber.mvpbasics.adapter.holder.UsersAdapterViewHolder
 import com.narcyber.mvpbasics.databinding.RowAllUsersBinding
-import com.narcyber.mvpbasics.helper.ListAdapterHelper
+import com.narcyber.mvpbasics.helper.UserDiffUtil
 import com.narcyber.mvpbasics.model.User
 import java.util.*
 
 class UserAdapter :
-    ListAdapter<User, UserAdapter.UsersAdapterViewHolder>(ListAdapterHelper.UserDiffUtil),
+    ListAdapter<User, UsersAdapterViewHolder>(UserDiffUtil),
     Filterable {
 
     private lateinit var allList: MutableList<User>
@@ -23,7 +23,7 @@ class UserAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UserAdapter.UsersAdapterViewHolder {
+    ): UsersAdapterViewHolder {
         val rowAllUsersBinding = RowAllUsersBinding
             .inflate(
                 LayoutInflater.from(parent.context), parent, false
@@ -32,7 +32,7 @@ class UserAdapter :
         return UsersAdapterViewHolder(rowAllUsersBinding)
     }
 
-    override fun onBindViewHolder(holder: UserAdapter.UsersAdapterViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UsersAdapterViewHolder, position: Int) {
         holder.root.email.text = getItem(position).email
         holder.root.login.text = getItem(position).userName
         holder.root.name.text = getItem(position).fullName
@@ -41,11 +41,6 @@ class UserAdapter :
     override fun getFilter(): Filter {
         return filter
     }
-
-    class UsersAdapterViewHolder(r: RowAllUsersBinding) : RecyclerView.ViewHolder(r.root) {
-        internal val root: RowAllUsersBinding = r
-    }
-
     private val filter: Filter = object : Filter() {
         override fun performFiltering(c: CharSequence?): FilterResults {
             val filteredList: MutableList<User> = mutableListOf()

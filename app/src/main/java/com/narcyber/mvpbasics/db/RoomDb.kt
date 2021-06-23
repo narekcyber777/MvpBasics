@@ -11,7 +11,6 @@ import com.narcyber.mvpbasics.model.User
 @Database(entities = [User::class], version = 2)
 abstract class RoomDb : RoomDatabase() {
     abstract fun userDao(): UserDao
-
     companion object {
         @Volatile
         lateinit var instance: RoomDb

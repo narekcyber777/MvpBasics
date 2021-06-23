@@ -3,12 +3,10 @@ package com.narcyber.mvpbasics.view
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.narcyber.mvpbasics.R
 import com.narcyber.mvpbasics.databinding.ActivitySignUpBinding
 import com.narcyber.mvpbasics.helper.ConstantHelper
-import com.narcyber.mvpbasics.helper.DataSaveHelper
 import com.narcyber.mvpbasics.presenter.RegisterActivityPresenter
 import com.narcyber.mvpbasics.utils.*
 
@@ -20,7 +18,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
     private lateinit var nameWatcher: TextWatcher
     private lateinit var textManipulator: TextManipulator
     private lateinit var textManipulator2: TextManipulator
-    private var registerActivityPresenter: RegisterActivityPresenter? = null
+    private lateinit var registerActivityPresenter: RegisterActivityPresenter
     private var isTermsErrorShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +31,6 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
 
     private fun customizeWidgets() {
         textManipulator = TextManipulator(root.requiredActivityTextView).also {
-
-            Log.d("Nar", (textManipulator === it).toString())
             it.with(object : TextManipulator.TextManipulatorCallBack {
                 override fun onEvent(event: String) {
                     when (event) {
@@ -66,7 +62,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
     }
 
     private fun inIt() {
-        registerActivityPresenter = RegisterActivityPresenter(this, DataSaveHelper(this))
+        registerActivityPresenter = RegisterActivityPresenter(this)
         root.signUp.setOnClickListener { v ->
             if (!validateAndSend()) {
                 if (isTermsErrorShown) {
@@ -90,7 +86,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
                         root.emailLayout.error = null
                     }
                     Validator.isEmailValid(s.toString().trim { it <= ' ' }) -> {
-                        registerActivityPresenter!!.isEmailTaken(
+                        registerActivityPresenter.isEmailTaken(
                             s.toString().trim { it <= ' ' }) // if very
                     }
                     else -> {
@@ -124,7 +120,7 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
                         root.usernameLayout.error = null
                     }
                     Validator.isUsernameValid(s.toString().trim { it <= ' ' }) -> {
-                        registerActivityPresenter!!.isUserNameTaken(s.toString().trim { it <= ' ' })
+                        registerActivityPresenter.isUserNameTaken(s.toString().trim { it <= ' ' })
                     }
                     else -> {
                         root.usernameLayout.error = getString(R.string.invalid_username)
@@ -164,36 +160,33 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
     }
 
     private fun validateAndSend(): Boolean {
-        var email: String?
-        var password: String?
-        var userName: String?
-        var fullName: String?
-        fullName = null
-        userName = fullName
-        password = userName
-        email = password
-        if (root.email.text == null || root.email.text.toString().isEmpty()) {
+        var email: String = ""
+        var password: String = ""
+        var userName: String = ""
+        var fullName: String = ""
+
+        if (isBlankIn(root.email)) {
             root.emailLayout.error = getString(R.string.error_empty)
         } else {
             email = root.email.text.toString()
         }
-        if (root.fullName.text == null || root.fullName.text.toString().isEmpty()) {
+        if (isBlankIn(root.fullName)) {
             root.fullNameLayout.error = getString(R.string.error_empty)
         } else {
             fullName = root.fullName.text.toString()
         }
-        if (root.password.text == null || root.password.text.toString().isEmpty()) {
+        if (isBlankIn(root.password)) {
             root.passLayout.error = getString(R.string.error_empty)
         } else {
             password = root.password.text.toString()
         }
-        if (root.username.text == null || root.username.text.toString().isEmpty()) {
+        if (isBlankIn(root.username)) {
             root.usernameLayout.error = getString(R.string.error_empty)
         } else {
             userName = root.username.text.toString()
         }
         if (!singUpStatusCheck()) return false
-        registerActivityPresenter!!.pushUserIntoDB(email!!, userName!!, fullName!!, password!!)
+        registerActivityPresenter.pushUserIntoDB(email, userName, fullName, password)
         return true
     }
 
@@ -250,13 +243,5 @@ class RegisterActivity : AppCompatActivity(), RegisterActivityPresenter.Register
         root.username.removeTextChangedListener(userNameWatcher)
     }
 
-    fun isNull(`object`: Any?): Boolean {
-        return `object` == null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        registerActivityPresenter = null
-    }
 
 }

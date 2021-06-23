@@ -23,7 +23,7 @@ class AllUsersFragment : Fragment(), AllUsersFragmentPresenter.AllUserView {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         root = FragmentAllUsersBinding.inflate(inflater, container, false)
         return root.root

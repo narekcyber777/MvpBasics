@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import com.narcyber.mvpbasics.adapter.holder.CityAdapterViewHolder
 import com.narcyber.mvpbasics.databinding.RowItemCityBinding
-import com.narcyber.mvpbasics.helper.ListAdapterHelper
-import java.util.*
+import com.narcyber.mvpbasics.helper.StringDiffUtil
+import com.narcyber.mvpbasics.helper.cityAdapterFilter
 
-class CityAdapter(var cityAdapterCallBack: CityAdapterCallBack?) :
-    ListAdapter<String, CityAdapter.CityAdapterViewHolder>(ListAdapterHelper.StringDiffUtil),
+class CityAdapter(private var cityAdapterCallBack: CityAdapterCallBack?) :
+    ListAdapter<String, CityAdapterViewHolder>(StringDiffUtil),
     Filterable {
-    private lateinit var allList: MutableList<String>
+    private var allList: ArrayList<String> = ArrayList()
     fun createItemBackUp() {
-        allList = currentList
+        allList.addAll(currentList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityAdapterViewHolder {
@@ -33,10 +33,6 @@ class CityAdapter(var cityAdapterCallBack: CityAdapterCallBack?) :
         }
     }
 
-    class CityAdapterViewHolder(r: RowItemCityBinding) : RecyclerView.ViewHolder(r.root) {
-        internal val root: RowItemCityBinding = r
-    }
-
     interface CityAdapterCallBack {
         fun onClick(id: Int)
         fun onClick(city: String)
@@ -46,30 +42,7 @@ class CityAdapter(var cityAdapterCallBack: CityAdapterCallBack?) :
         return filter
     }
 
-    private val filter: Filter = object : Filter() {
-        override fun performFiltering(c: CharSequence?): FilterResults {
-            val filteredList: MutableList<String> = mutableListOf()
-            if (c == null || c.isEmpty()) {
-                filteredList.addAll(allList)
-            } else {
-                allList.forEach { a ->
-                    run {
-                        val b: Boolean = a.lowercase(Locale.getDefault())
-                            .contains(c.toString().lowercase(Locale.getDefault()))
-                        if (b) filteredList.add(a)
-                    }
-                }
-            }
-            val filterResults = FilterResults()
-            filterResults.values = filteredList
-            return filterResults
-        }
-
-        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            var list = results?.values as MutableList<String>
-            submitList(list)
-        }
-    }
+    private val filter: Filter = cityAdapterFilter(this, allList)
 
 
 }

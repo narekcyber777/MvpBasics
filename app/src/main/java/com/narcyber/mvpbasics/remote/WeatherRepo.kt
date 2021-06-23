@@ -15,14 +15,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class WeatherRepo {
     fun getWeatherInfo(cityName: String = "", presenter: PresenterContract) {
         val api: ApiWeatherInterface =
-            WeatherApiClient.getClient()!!.create(ApiWeatherInterface::class.java)
-        val observable: Observable<Weather?>? =
+            WeatherApiClient.weatherClient.create(ApiWeatherInterface::class.java)
+        val observable: Observable<Weather> =
             api.getWeatherData(ConstantHelper.WEATHER_API_KEY, cityName.toString())
-        observable!!.subscribeOn(Schedulers.newThread())
+        observable.subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Weather?> {
                 override fun onSubscribe(d: @NonNull Disposable?) {
-                    presenter.disposables!!.add(d)
+                    presenter.disposables.add(d)
                     presenter.onSubscribe()
                 }
 
@@ -46,7 +46,7 @@ class WeatherRepo {
         fun responseBack(celsius: String?)
         fun failedResponse(error: String?)
         fun isFinished(isFinished: Boolean)
-        val disposables: CompositeDisposable?
+        val disposables: CompositeDisposable
     }
 
 }

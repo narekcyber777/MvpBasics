@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface ApiWeatherInterface {
     @GET("weather?units=metric")
     fun getWeatherData(
-        @Query("appid") id: String?,
-        @Query("q") name: String?
-    ): Observable<Weather?>?
+        @Query("appid") id: String,
+        @Query("q") name: String
+    ): Observable<Weather>
 }

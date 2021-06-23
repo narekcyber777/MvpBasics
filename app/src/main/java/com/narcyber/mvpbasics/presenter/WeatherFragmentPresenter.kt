@@ -4,7 +4,9 @@ import com.narcyber.mvpbasics.remote.WeatherRepo
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WeatherFragmentPresenter(val view: WeatherView) : WeatherRepo.PresenterContract {
-    var weatherRepo: WeatherRepo = WeatherRepo()
+    private val weatherRepo: WeatherRepo by lazy {
+        WeatherRepo()
+    }
     private val cd: CompositeDisposable by lazy {
         CompositeDisposable()
     }
@@ -24,17 +26,15 @@ class WeatherFragmentPresenter(val view: WeatherView) : WeatherRepo.PresenterCon
         view.onFinishedObserving()
     }
 
-    override val disposables: CompositeDisposable?
+    override val disposables: CompositeDisposable
         get() = cd
 
     fun fetchWeatherByCityName(city: String?) {
         weatherRepo.getWeatherInfo(city!!, this)
     }
-
     fun destroyDisposable() {
-        disposables!!.clear()
+        disposables.clear()
     }
-
     interface WeatherView {
         fun onResetViewsVisibility()
         fun onWeatherCelsiusUpdate(celsius: String?)

@@ -12,12 +12,11 @@ import java.io.Serializable
     indices = [Index(value = [ConstantHelper.ROOM_USER_COLUMN_USERNAME], unique = true)]
 )
 data class User(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_EMAIL) var email: String,
     @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_NAME) var fullName: String,
     @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_USERNAME) var userName: String,
     @ColumnInfo(name = ConstantHelper.ROOM_USER_COLUMN_PASSWORD) var password: String,
-) : Serializable {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+) : Serializable
 

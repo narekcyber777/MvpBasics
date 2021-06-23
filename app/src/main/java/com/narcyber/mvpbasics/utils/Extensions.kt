@@ -3,6 +3,7 @@ package com.narcyber.mvpbasics.utils
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.narcyber.mvpbasics.helper.ConstantHelper
@@ -35,4 +36,12 @@ fun withArgumentsMoveToAndClear(bundle: Bundle?, from: FragmentActivity, cls: Cl
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     intent.putExtras(bundle!!)
     from.startActivity(intent)
+}
+
+fun isNull(any: Any?): Boolean {
+    return any == null
+}
+
+fun isBlankIn(t: TextView): Boolean {
+    return t.text == null || t.text.toString().isEmpty()
 }
